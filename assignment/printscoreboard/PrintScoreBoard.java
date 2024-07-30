@@ -17,8 +17,7 @@ public class PrintScoreBoard {
         boolean ascending = false; // true: 오름차순, false: 내림차순
 
         ScoreData[] scoreData = getScoreData(students, sortingConditionType, ascending);
-
-        printScoreBoard(scoreData);
+        ScorePrinter.printer(scoreData);
     }
 
     /**
@@ -88,71 +87,6 @@ public class PrintScoreBoard {
             }
             default ->
                     throw new IllegalArgumentException("Invalid sorting sortCondition: " + sortingConditionType.getValue());
-        }
-    }
-
-    /**
-     * 과목별 총점을 계산 후 int[]를 반환하는 함수
-     */
-    private static int[] calcSubjectTotal(ScoreData[] scoreData) {
-        int korTotal = 0;
-        int engTotal = 0;
-        int mathTotal = 0;
-
-        for (ScoreData data : scoreData) {
-            korTotal += data.student.kor;
-            engTotal += data.student.eng;
-            mathTotal += data.student.math;
-        }
-
-        return new int[]{korTotal, engTotal, mathTotal};
-    }
-
-    public static void printScoreBoard(ScoreData[] scoreData) {
-        printHeader();
-        printBody(scoreData);
-        printFooter(calcSubjectTotal(scoreData));
-    }
-
-    /**
-     * 점수표 헤더에 제목과 점수 분류명을 콘솔에 출력해주는 함수
-     */
-    private static void printHeader() {
-        String[] sub_name = {"국어", "영어", "수학"};
-
-        System.out.println("============ 학생별 / 과목별 총점구하기 ============");
-        System.out.print("\t\t");
-        for (String subject_name : sub_name) {
-            System.out.print(subject_name + "\t\t");
-        }
-        System.out.println("총점\t\t평균\t");
-    }
-
-    /**
-     * 조건에 따라 정렬이 완료된 학생의 점수 데이터를 콘솔에 출력하는 함수
-     */
-    private static void printBody(ScoreData[] scoreData) {
-        for (ScoreData data : scoreData) {
-            String originalName = data.student.name;
-            String name = originalName.length() == 3 ? originalName : originalName + " "; // intellij 콘솔 특성때문에 이름 길이 조정
-
-            System.out.print(name + "\t");
-            System.out.print(data.student.kor + "\t\t");
-            System.out.print(data.student.eng + "\t\t");
-            System.out.print(data.student.math + "\t\t");
-            System.out.print(data.getTotal() + "\t\t");
-            System.out.printf("%.1f\n", data.getAverage());
-        }
-    }
-
-    /**
-     * 점수표 하단 표기될 과목별 총점을 콘솔에 출력하는 함수
-     */
-    private static void printFooter(int[] subject) {
-        System.out.println("===============================================");
-        System.out.print("총점 \t");
-        for (int sub_total_score : subject) {
-            System.out.print(sub_total_score + "\t\t");
         }
     }
 }

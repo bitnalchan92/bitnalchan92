@@ -11,10 +11,6 @@ public class ScoreData {
         this.average = average;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
     public int getTotal() {
         return total;
     }
