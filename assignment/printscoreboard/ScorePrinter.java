@@ -1,13 +1,14 @@
 package assignment.printscoreboard;
 
+/**
+ * 정렬된 점수 데이터 및 과목별 총점을 가지고 콘솔에 출력하는 Class입니다.
+ */
 public class ScorePrinter {
     static void printer(ScoreData[] scoreData) {
-        String[] sub_name = {"국어", "영어", "수학"};
-
         // Header
         System.out.println("============ 학생별 / 과목별 총점구하기 ============");
         System.out.print("\t\t");
-        for (String subject_name : sub_name) {
+        for (String subject_name : new String[]{"국어", "영어", "수학"}) {
             System.out.print(subject_name + "\t\t");
         }
         System.out.println("총점\t\t평균\t");
@@ -28,14 +29,6 @@ public class ScorePrinter {
         // Footer
         System.out.println("===============================================");
         System.out.print("총점 \t");
-        int[] subject = new int[3];
-        for (ScoreData data : scoreData) {
-            subject[0] += data.student.kor;
-            subject[1] += data.student.eng;
-            subject[2] += data.student.math;
-        }
-        for (int sub_total_score : subject) {
-            System.out.print(sub_total_score + "\t\t");
-        }
+        System.out.print(Student.korTotal + "\t\t" + Student.engTotal + "\t\t" + Student.mathTotal);
     }
 }

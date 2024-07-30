@@ -10,8 +10,8 @@ public class PrintScoreBoard {
                 , new Student("이광수", 100, 65, 80)
         };
 
-        SortingConditionType sortingConditionType = SortingConditionType.MATH;
-        boolean ascending = false; // true: 오름차순, false: 내림차순
+        SortingConditionType sortingConditionType = SortingConditionType.TOTAL;
+        boolean ascending = true; // true: 오름차순, false: 내림차순
 
         ScoreData[] scoreData = ScoreData.getScoreData(students, sortingConditionType, ascending);
         ScorePrinter.printer(scoreData);

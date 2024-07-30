@@ -1,10 +1,13 @@
+/**
+ * 학생들의 점수 정보를 가지고 콘솔에 출력하는데 필요한 데이터를 위한 Class입니다.
+ */
 package assignment.printscoreboard;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class ScoreData {
-    Student student; // Student
+    Student student; // Student ( Student class와 ScoreData class는 포함관계(Composite) )
     int total; // 총점
     float average; // 평균
 
@@ -43,7 +46,7 @@ public class ScoreData {
     /**
      * 만들어진 데이터를 특정 조건에 따라 정렬해주는 함수
      */
-    private static void sortScoreData(SortingConditionType sortingConditionType, boolean ascending, ScoreData[] scoreData) {
+    static void sortScoreData(SortingConditionType sortingConditionType, boolean ascending, ScoreData[] scoreData) {
         switch (sortingConditionType.getValue()) {
             case "name" -> {
                 if (ascending) {
