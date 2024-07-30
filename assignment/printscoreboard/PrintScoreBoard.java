@@ -12,18 +12,13 @@ public class PrintScoreBoard {
                 , new Student("하하", 80, 72, 95)
                 , new Student("이광수", 100, 65, 80)
         };
-        String[] sub_name = {"국어", "영어", "수학"};
 
         SortingConditionType sortingConditionType = SortingConditionType.MATH;
         boolean ascending = false; // true: 오름차순, false: 내림차순
 
-        printHeader(sub_name);
-
         ScoreData[] scoreData = getScoreData(students, sortingConditionType, ascending);
-        printBody(scoreData);
 
-        int[] subject = calcSubjectTotal(students);
-        printFooter(subject);
+        printScoreBoard(scoreData);
     }
 
     /**
@@ -99,24 +94,32 @@ public class PrintScoreBoard {
     /**
      * 과목별 총점을 계산 후 int[]를 반환하는 함수
      */
-    private static int[] calcSubjectTotal(Student[] students) {
+    private static int[] calcSubjectTotal(ScoreData[] scoreData) {
         int korTotal = 0;
         int engTotal = 0;
         int mathTotal = 0;
 
-        for (Student student : students) {
-            korTotal += student.kor;
-            engTotal += student.eng;
-            mathTotal += student.math;
+        for (ScoreData data : scoreData) {
+            korTotal += data.student.kor;
+            engTotal += data.student.eng;
+            mathTotal += data.student.math;
         }
 
         return new int[]{korTotal, engTotal, mathTotal};
     }
 
+    public static void printScoreBoard(ScoreData[] scoreData) {
+        printHeader();
+        printBody(scoreData);
+        printFooter(calcSubjectTotal(scoreData));
+    }
+
     /**
      * 점수표 헤더에 제목과 점수 분류명을 콘솔에 출력해주는 함수
      */
-    private static void printHeader(String[] sub_name) {
+    private static void printHeader() {
+        String[] sub_name = {"국어", "영어", "수학"};
+
         System.out.println("============ 학생별 / 과목별 총점구하기 ============");
         System.out.print("\t\t");
         for (String subject_name : sub_name) {
@@ -131,16 +134,14 @@ public class PrintScoreBoard {
     private static void printBody(ScoreData[] scoreData) {
         for (ScoreData data : scoreData) {
             String originalName = data.student.name;
-            String name = originalName.length() == 3 ? originalName : originalName + " ";
-            int totalScore = data.getTotal();
-            float averageScore = data.getAverage();
+            String name = originalName.length() == 3 ? originalName : originalName + " "; // intellij 콘솔 특성때문에 이름 길이 조정
 
             System.out.print(name + "\t");
             System.out.print(data.student.kor + "\t\t");
             System.out.print(data.student.eng + "\t\t");
             System.out.print(data.student.math + "\t\t");
-            System.out.print(totalScore + "\t\t");
-            System.out.printf("%.1f\n", averageScore);
+            System.out.print(data.getTotal() + "\t\t");
+            System.out.printf("%.1f\n", data.getAverage());
         }
     }
 
