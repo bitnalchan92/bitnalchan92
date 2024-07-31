@@ -1,7 +1,7 @@
 /**
  * 학생들의 점수 정보를 가지고 콘솔에 출력하는데 필요한 데이터를 위한 Class입니다.
  */
-package assignment.printscoreboard;
+package printscoreboard;
 
 import java.util.Arrays;
 import java.util.Comparator;

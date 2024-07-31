@@ -1,4 +1,4 @@
-package assignment.printscoreboard;
+package printscoreboard;
 
 public enum SortingConditionType {
     NAME("name"),

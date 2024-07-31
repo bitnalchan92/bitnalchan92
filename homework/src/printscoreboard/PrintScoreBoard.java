@@ -1,4 +1,4 @@
-package assignment.printscoreboard;
+package printscoreboard;
 
 public class PrintScoreBoard {
     public static void main(String[] args) {
