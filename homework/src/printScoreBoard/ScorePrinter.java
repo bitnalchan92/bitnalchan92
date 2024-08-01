@@ -1,4 +1,4 @@
-package printscoreboard;
+package printScoreBoard;
 
 /**
  * 정렬된 점수 데이터 및 과목별 총점을 가지고 콘솔에 출력하는 Class입니다.

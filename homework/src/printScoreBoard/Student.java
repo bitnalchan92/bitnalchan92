@@ -1,7 +1,7 @@
 /**
  * 학생 정보(이름, 국/영/수 과목 점수), 과목별 총점을 관리를 위한 Class입니다.
  */
-package printscoreboard;
+package printScoreBoard;
 
 public class Student {
     String name; // 학생의 이름

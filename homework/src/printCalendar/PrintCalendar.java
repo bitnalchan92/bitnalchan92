@@ -2,7 +2,7 @@
  * 참고 : https://why-dev.tistory.com/171
  */
 
-package printcalendar;
+package printCalendar;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
