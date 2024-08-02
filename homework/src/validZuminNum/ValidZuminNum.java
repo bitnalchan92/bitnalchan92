@@ -49,6 +49,13 @@ public class ValidZuminNum {
     }
 
     public static void printCheck(String zumin) {
+        /*
+            정규식 로직 추가
+            String pattern = "^\\d{6}-\\d{7}$";
+            Pattern compiledPattern = Pattern.compile(pattern);
+            Matcher matcher = compiledPattern.matcher(zumin);
+            boolean isValid = matcher.matches();
+         */
         if (!checkLength(zumin)) {
             System.out.println("주민번호 길이는 14개 입니다.");
         } else {

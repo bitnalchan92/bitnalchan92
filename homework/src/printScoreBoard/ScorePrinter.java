@@ -11,15 +11,7 @@ public class ScorePrinter {
 
         // Body
         for (ScoreData data : scoreData) {
-            String originalName = data.student.name;
-            String name = originalName.length() == 3 ? originalName : originalName + " "; // intellij 콘솔 특성때문에 이름 길이 조정
-
-            System.out.print(name + "\t");
-            System.out.print(data.student.kor + "\t\t");
-            System.out.print(data.student.eng + "\t\t");
-            System.out.print(data.student.math + "\t\t");
-            System.out.print(data.getTotal() + "\t\t");
-            System.out.printf("%.1f\n", data.getAverage());
+            System.out.println(data);
         }
 
         // Footer

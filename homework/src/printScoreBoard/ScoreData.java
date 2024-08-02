@@ -17,14 +17,6 @@ public class ScoreData {
         this.average = average;
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public float getAverage() {
-        return average;
-    }
-
     /**
      * 학생정보 및 총점과 평균을 가진 ScoreData[]를 정렬 후 반환하는 함수
      */
@@ -93,5 +85,10 @@ public class ScoreData {
             default ->
                     throw new IllegalArgumentException("Invalid sorting sortCondition: " + sortingConditionType.getValue());
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.student.toString();
     }
 }
