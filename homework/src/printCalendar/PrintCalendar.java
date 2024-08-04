@@ -11,7 +11,13 @@ public class PrintCalendar {
         /*
         1. 출력하고자 하는 연도 / 월 입력받기
          */
-        int[] yearAndMonth = requestYearAndMonth();
+        int[] yearAndMonth;
+        try {
+            yearAndMonth = requestYearAndMonth();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         int year = yearAndMonth[0];
         int month = yearAndMonth[1];
 
@@ -38,43 +44,44 @@ public class PrintCalendar {
         printCalendarDay(cntOfMonth, firstDayOfWeek);
     }
 
-    private static int[] requestYearAndMonth() {
-        int[] result = new int[2];
+    private static int[] requestYearAndMonth() throws Exception {
+        try {
+            int[] result = new int[2];
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(" ================================================ ");
-        System.out.print("> 출력하고자 하는 달력의 \"연도\"를 입력해주세요 ~> ");
-        result[0] = scanner.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("================================================");
+            System.out.print("> 출력하고자 하는 달력의 \"연도\"를 입력해주세요 ~> ");
+            result[0] = scanner.nextInt();
 
-        System.out.print("> 출력하고자 하는 달력의 \"월\"를 입력해주세요 ~> ");
-        result[1] = scanner.nextInt();
-        System.out.println(" ================================================ ");
-        scanner.close();
+            System.out.print("> 출력하고자 하는 달력의 \"월\"를 입력해주세요 ~> ");
+            result[1] = scanner.nextInt();
+            System.out.println("================================================");
+            scanner.close();
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            throw new Exception("연도/월은 숫자 입력만 가능합니다.");
+        }
     }
 
     private static void printCalendarDay(int cntOfMonth, DayOfWeek day) {
         int spaceCount = getNumOfDay(day);
-
-        while (spaceCount > 0) {
+        while (!day.toString().equals("SUNDAY") && spaceCount > 0) {
             System.out.print("\t");
             spaceCount--;
         }
 
         final int DATE_PER_ROW = 7; // 한 줄에 표기하는 날짜의 수
-        int temp_int = DATE_PER_ROW - getNumOfDay(day);
+        int temp_int = DATE_PER_ROW - getNumOfDay(day); // ==> 7
         for (int i = 1; i <= cntOfMonth; i++) {
             System.out.print(i + "\t");
-            if (i % DATE_PER_ROW == temp_int) {
-                System.out.println();
-            }
+            if (i % DATE_PER_ROW == temp_int) System.out.println();
         }
     }
 
     private static int getNumOfDay(DayOfWeek day) {
         return switch (day.toString()) {
-            case "SUNDAY" -> 0;
+            case "SUNDAY" -> 7;
             case "MONDAY" -> 1;
             case "TUESDAY" -> 2;
             case "WEDNESDAY" -> 3;
@@ -86,7 +93,13 @@ public class PrintCalendar {
     }
 
     private static void printCalendarHeader(int year, int month) {
-        System.out.println("<< " + year + "년 " + month + "월 >>");
-        System.out.println("일\t월\t화\t수\t목\t금\t토");
+        String title = "<< " + year + "년 " + month + "월 >>";
+        String dayName = "일\t월\t화\t수\t목\t금\t토";
+        int emptySpace = ((27 - title.length()) / 2);
+        for (int i = 0; i < emptySpace; i++) {
+            System.out.print(" ");
+        }
+        System.out.println(title);
+        System.out.println(dayName);
     }
 }
