@@ -64,32 +64,23 @@ public class PrintCalendar {
         }
     }
 
-
-    /*
-    TODO 프린트 하는 로직 리팩토링
-        - 1. 맨 첫번째줄 스페이스 Count랑 날짜 포함 7개 쌓일때마다 개행 하는 방법도 있음
-        - 2. day_of_week=1이면 i=(7, 14, 21, 28)일때 줄 바뀜
-             day_of_week=2이면 i=(6, 13, 20, 27)일때 줄 바뀜
-             day_of_week=3이면 i=(5, 12, 19, 26)일때 줄 바뀜
-     */
     private static void printCalendarDay(int cntOfMonth, DayOfWeek day) {
         int spaceCount = getNumOfDay(day);
-        while (!day.toString().equals("SUNDAY") && spaceCount > 0) {
+        while (spaceCount > 0) {
             System.out.print("\t");
             spaceCount--;
         }
 
         final int DATE_PER_ROW = 7; // 한 줄에 표기하는 날짜의 수
-        int temp_int = DATE_PER_ROW - getNumOfDay(day); // ==> 7
         for (int i = 1; i <= cntOfMonth; i++) {
             System.out.print(i + "\t");
-            if (i % DATE_PER_ROW == temp_int) System.out.println();
+            if ((i + getNumOfDay(day)) % DATE_PER_ROW == 0) System.out.println();
         }
     }
 
     private static int getNumOfDay(DayOfWeek day) {
         return switch (day.toString()) {
-            case "SUNDAY" -> 7;
+            case "SUNDAY" -> 0;
             case "MONDAY" -> 1;
             case "TUESDAY" -> 2;
             case "WEDNESDAY" -> 3;
