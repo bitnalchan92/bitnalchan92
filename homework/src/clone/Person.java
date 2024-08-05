@@ -13,14 +13,14 @@ public class Person implements Cloneable {
 
     @Override
     public String toString() {
-        return "Person{name='" + this.name + "', age=" + this.age + ", address=" + address + "}";
+        return "Person{name='" + this.name + "', age=" + this.age + ", address=" + this.address + "}";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof Person) {
             Person obj2 = (Person) obj;
-            return (this.name.equals(obj2.name)) && (this.age == obj2.age);
+            return this.name.equals(obj2.name) && this.age == obj2.age && this.address.equals(obj2.address);
         } else {
             return false;
         }
