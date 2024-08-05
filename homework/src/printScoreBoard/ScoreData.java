@@ -89,6 +89,6 @@ public class ScoreData {
 
     @Override
     public String toString() {
-        return this.student.toString();
+        return student + "";
     }
 }
