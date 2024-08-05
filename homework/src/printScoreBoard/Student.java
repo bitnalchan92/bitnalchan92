@@ -28,14 +28,16 @@ public class Student {
     }
 
     float getAverage() {
-        return (float) (Math.round((this.getTotal() / 3.0) * 10) / 10.0);
+        return getTotal() / 3.0f;
+        // return (float) (Math.round((this.getTotal() / 3.0) * 10) / 10.0);
     }
 
     @Override
     public String toString() {
         return (this.name.length() == 3 ? this.name : this.name + " ")
                 + "\t" + this.kor + "\t\t" + this.eng + "\t\t" + this.math
-                + "\t\t" + this.getTotal() + "\t\t" + this.getAverage();
+                + "\t\t" + this.getTotal() + "\t\t" + String.format("%.1f", this.getAverage());
+        // + "\t\t" + this.getTotal() + "\t\t" + this.getAverage();
     }
 }
 
