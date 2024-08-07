@@ -14,6 +14,12 @@ public class PrintStudent5 {
     private static void input(ArrayList<Student5> studentArr) {
         Scanner sc = new Scanner(System.in);
 
+        /*
+            String pandan = sc.nextLine();
+            while ( !pandan.equalsIgnoreCase("q")) {
+                // ...
+            }
+         */
         while (true) {
             System.out.print("이름을 입력하세요 > ");
             String name = sc.nextLine();
