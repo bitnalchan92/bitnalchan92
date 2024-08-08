@@ -31,15 +31,27 @@ class Student6 implements Comparable<Student6> {
                 + "\t\t" + this.getTotal() + "\t\t" + this.getAverage();
     }
 
-    @Override
-    public int compareTo(Student6 student) {
-        // 오름차순(<), 내림차순(>)
-        if (this.getTotal() > student.getTotal()) {
-            return -1;
-        } else if (this.getTotal() == student.getTotal()) {
-            return 0;
-        } else {
-            return 1;
+//    @Override
+//    public int compareTo(Student6 student) {
+    // 오름차순(<), 내림차순(>)
+//        if (this.getTotal() > student.getTotal()) {
+//            return -1;
+//        } else if (this.getTotal() == student.getTotal()) {
+//            return 0;
+//        } else {
+//            return 1;
+//        }
+//    }
+    /*
+        자바 7 이상에서는 Integer.compare를 사용하여 간결하게 작성할 수 있다.
+        public static int compare ( int x, int y ) {
+            return ( x < y ) ? -1 : ( (x==y) ? 0 : 1 );
         }
+     */
+
+
+    public int compareTo(Student6 other) {
+        return Integer.compare(other.getTotal(), this.getTotal());
     }
+
 }
