@@ -1,21 +1,30 @@
 package printClock;
 
-import java.text.SimpleDateFormat;
-
 public class TimeThread1 extends Thread {
+    private SharedArea sharedArea;
+
+    TimeThread1(SharedArea sharedArea) {
+        this.sharedArea = sharedArea;
+    }
+
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        System.out.println("============== 1. Thread 클래스 상속 ===================");
+        for (int i = 0; i < 5; i++) {
             long time = System.currentTimeMillis();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 E요일 HH시 mm분 ss초");
-            System.out.println(sdf.format(time));
+            System.out.println(SharedArea.SIMPLE_DATE_FORMAT.format(time));
 
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
+        }
+
+        this.sharedArea.setIsDoneTh1(true);
+
+        synchronized (this.sharedArea) {
+            this.sharedArea.notify();
         }
     }
 }

@@ -1,21 +1,39 @@
 package printClock;
 
-import java.text.SimpleDateFormat;
-
 public class TimeThread2 implements Runnable {
+    private SharedArea sharedArea;
+
+    TimeThread2(SharedArea sharedArea) {
+        this.sharedArea = sharedArea;
+    }
+
     @Override
     public void run() {
-        for (int i = 0; i < 10; i++) {
+        if (!this.sharedArea.getIsDoneTh1()) {
+            try {
+                synchronized (this.sharedArea) {
+                    this.sharedArea.wait();
+                }
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.println("============== 2. Runnable 인터페이스 구현 ==============");
+        for (int i = 0; i < 5; i++) {
             long time = System.currentTimeMillis();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 E요일 HH시 mm분 ss초");
-            System.out.println(sdf.format(time));
-
+            System.out.println(SharedArea.SIMPLE_DATE_FORMAT.format(time));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
+        }
+
+        this.sharedArea.setIsDoneTh2(true);
+
+        synchronized (this.sharedArea) {
+            this.sharedArea.notify();
         }
     }
 }
