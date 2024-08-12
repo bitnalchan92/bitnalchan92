@@ -32,6 +32,24 @@ public class PrintStudent7 {
         } catch (IOException ioe) {
             System.out.println("파일을 읽을 수 없습니다.");
         }
+
+        /*
+             try {
+                 while ( true ) {
+                    String str = reader.readLine();
+                    if ( str == null ) break;
+                    String[] sep = str.split(" ");
+                    list.add( new Student7(sep[0], Integer.parseInt(sep[1]),
+                           , Integer.parseInt(sep[2]), Integer.parseInt(sep[3]));
+                 }
+             } catch ( FileNotFoundException fnfe ) {
+                // ...
+             } catch ( IOException ioe ) {
+                // ...
+              } finally {
+                // reader close()
+             }
+         */
     }
 
     private static void print(ArrayList<Student7> studentArr) {
