@@ -5988,3 +5988,5 @@ FROM (SELECT ROWNUM as RNUM, E.*
       WHERE ROWNUM <= 14)
 WHERE RNUM BETWEEN 10 AND 14;
 
+select distinct job from emp;
+
