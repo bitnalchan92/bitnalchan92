@@ -19,18 +19,31 @@ public class PrintSourcePath {
     }
 
     private static void listFilesAndFolders(File dir) {
-        File[] files = dir.listFiles();
+        if (dir.isDirectory()) {
+            System.out.println("🗂️ Directory: " + dir.getPath());
 
-        if (files == null) return;
+            File[] files = dir.listFiles();
 
-        for (File file : files) {
-            String filePath = file.getPath();
+            if (files != null) {
+                for (File file : files) {
+                    listFilesAndFolders(file);
+                }
+            }
 
-            String emoji = filePath.lastIndexOf(".") == -1 ? "🗂️ " : "\t\t";
-            System.out.println(emoji + filePath);
-
-            File f = new File(filePath);
-            listFilesAndFolders(f);
+        } else {
+            System.out.println("\t📃 File: " + dir.getPath() + " (" + dir.length() + "byte)");
         }
+
+//        if (files == null) return;
+//
+//        for (File file : files) {
+//            String filePath = file.getPath();
+//
+//            String emoji = filePath.lastIndexOf(".") == -1 ? "🗂️ " : "\t\t";
+//            System.out.println(emoji + filePath);
+//
+//            File f = new File(filePath);
+//            listFilesAndFolders(f);
+//        }
     }
 }
