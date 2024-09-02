@@ -30,12 +30,14 @@ public class Homework3 {
 
         List<String> list1 = myList.stream()
                 .distinct()
-                .collect(Collectors.toList());
+                .toList();
+//        list1.add("King"); 오류 발생
         System.out.println(list1);
 
         List<String> list2 = list1.stream()
                 .sorted()
                 .collect(Collectors.toList());
+        list2.add("king"); // 오류 발생하지 않음
         System.out.println(list2);
 
         System.out.println(list1.size());
