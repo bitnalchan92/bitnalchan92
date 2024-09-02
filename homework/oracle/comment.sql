@@ -5990,3 +5990,10 @@ WHERE RNUM BETWEEN 10 AND 14;
 
 select distinct job from emp;
 
+
+select * from emp;
+update emp set ename = 'MILLER' where empno = 7934; -- MILLER
+commit;
+
+
+select * from goodsinfo;
