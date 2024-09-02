@@ -25,6 +25,7 @@ public class Homework3 {
         List<String> myList = Arrays.asList(
                 "CLERK", "SALESMAN", "MANAGER", "ANALYST", "PRESIDENT", "SALESMAN", "ANALYST");
 
+        // long size = myList.stream().count();
         System.out.println(myList.size() + "명");
 
         List<String> list1 = myList.stream()

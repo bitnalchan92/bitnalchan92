@@ -28,10 +28,10 @@ public class Homework2 {
         List<String> myList = Arrays.asList("test2.java", "test.java", "test2.java", "test.txt", "test.txt", "hta");
 
         List<String> list1 = myList.stream()
-                .filter((ele) -> ele.lastIndexOf(".") != -1)
+                .filter((ele) -> ele.lastIndexOf(".") != -1) // .filter((ele) -> ele.indexOf(".") != -1)
                 .map(String::toUpperCase)
                 .sorted()
-                .toList();
+                .toList(); // collect(Collectors.toList()); // 최종결과를 리스트로 만듭니다.
         System.out.println(list1);
 
 
