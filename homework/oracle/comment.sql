@@ -5997,3 +5997,19 @@ commit;
 
 
 select * from goodsinfo;
+
+select * from USER_PROCEDURES;
+
+CREATE OR REPLACE PROCEDURE GET_EMP(
+                vempno IN emp.empno%type,
+                vename OUT emp.ename%type,
+                vsal OUT emp.sal%type
+            )
+            IS
+            BEGIN
+                SELECT ename, sal
+                INTO vename, vsal
+                FROM emp
+                WHERE empno = vempno;
+            END;
+commit;
