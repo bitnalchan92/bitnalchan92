@@ -11,7 +11,7 @@ public class DAO {
 
         ArrayList<Emp> result = new ArrayList<>();
         String[] columnName = {"empno", "ename", "job", "mgr", "hiredate", "sal", "comm", "deptno"};
-ㅇ
+
         try {
             String driver = "oracle.jdbc.driver.OracleDriver";
             Class.forName(driver);
