@@ -6015,3 +6015,18 @@ CREATE OR REPLACE PROCEDURE GET_EMP(
 commit;
 
 
+SELECT *
+FROM (SELECT ROWNUM RNUM
+           , BOARD_NUM
+           , BOARD_NAME
+           , LPAD(' ', BOARD_RE_LEV * 4, ' ') || BOARD_SUBJECT
+           , BOARD_CONTENT
+           , BOARD_RE_REF
+           , BOARD_RE_LEV
+           , BOARD_RE_SEQ
+           , BOARD_READCOUNT
+           , BOARD_DATE
+      FROM (SELECT * FROM BOARD ORDER BY BOARD_RE_REF DESC, BOARD_RE_SEQ)
+      WHERE ROWNUM <= 1000)
+WHERE RNUM >= 0
+  AND RNUM <= 1000;
