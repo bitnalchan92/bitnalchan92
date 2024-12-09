@@ -1,0 +1,161 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--
+문법 오류
+where rnum >={start}
+==>해결법
+        1) where rnum &gt; = #{start}
+        2) where rnum <![CDATA[ >=  ]]> #{start}
+
+==>설명
+1) html문서는 '<','>' 와 같은 마크업 문자들을 파싱해서 읽어들이는 구조입니다.
+                    그래서 마크업 문자들을 작다(<),크다(>)로 사용하기 위해서
+                    '&lt;','&gt;'등의 escape문자열 (escape charater)을 이용해야 합니다.
+
+                    < : &lt;
+                    > : &gt;
+
+2) CDATA(Character DATA) - XML파서가 분석하지 않는 문자 데이터를 의미합니다.
+사용하는 방법은 <![CDATA[ 와 ]]>사이에 문자들을 넣으면 됩니다.
+
+-->
+
+<!--Mapper인터페이스의 패키지명과 이름을 namespace로 설정합ㄴ디ㅏ -->
+<mapper namespace="com.naver.myhome4.mybatis.mapper.BoardMapper">
+    <select id="getListCount" resultType="int">
+        select count(*)
+        from board
+    </select>
+
+    <select id="getBoardList" resultType="board">
+        select *
+        from (select rownum rnum, b.*
+              from (select *
+                    from board
+                    order by BOARD_RE_REF desc,
+                             BOARD_RE_SEQ asc) b
+              where rownum &lt;= #{end})
+        where rnum &gt;= #{start}
+          and rnum &lt;= #{end}
+    </select>
+
+    <!--
+    1. JdbcType=VARCHAR : 첨부 파일을 추가 하지 않은 경우 에러 처리해 줍니다.
+해당 필드가 nu11인 경우 JdbcType=VARCHAR로 처리하면 nu11로 설정됩니다.
+04) #{BOARD_FILE, jabcType=VARCHAR}
+#{BOARD_
+_ORIGINAL, jdbcType=VARCHAR}
+2. a insert 전에(order="BEFORE")
+조회(select nv1(max(BOARD_NUM),0)+1 from board)합니다.
+® 조회한 값을 Keyproperty="BOARD_NUM"에서 설정한 대로
+"BOARD_NUM" 프로퍼티에 저장합니다.
+(public void setBOARD_NUM(int bOARD_NUM))
+e insert문의 #(BOARD_NUM}는 지금 구한 값을 BoardBean에서가져옵니다.
+(public String getBOARD_NUM() {return BOARD_NUM;})
+-->
+
+    <insert id="insertBoard">
+        <selectKey resultType="int" order="BEFORE" keyProperty="BOARD_NUM">
+            select nvl(max(BOARD_NUM),0)+1 from board
+        </selectKey>
+        insert into board
+        (BOARD_NUM,
+        BOARD_NAME,BOARD_PASS,BOARD_SUBJECT,
+        BOARD_CONTENT,BOARD_FILE,BOARD_ORIGINAL,
+        BOARD_RE_REF,
+        BOARD_RE_LEV,BOARD_RE_SEQ,BOARD_READCOUNT,
+        BOARD_DATE)
+        values
+        (#{BOARD_NUM}, #{BOARD_NAME}, #{BOARD_PASS}, #{BOARD_SUBJECT}, #{BOARD_CONTENT}, #{BOARD_FILE},
+        #{BOARD_ORIGINAL}
+        ,#{BOARD_NUM}
+        ,#{BOARD_RE_LEV},#{BOARD_RE_SEQ},#{BOARD_READCOUNT},
+        sysdate)
+
+    </insert>
+
+    <update id="setReadCountUpdate">
+        UPDATE BOARD
+        SET BOARD_READCOUNT = BOARD_READCOUNT + 1
+        WHERE BOARD_NUM = #{num}
+    </update>
+
+    <select id="getDetail" resultType="board">
+        SELECT *
+        FROM BOARD
+        WHERE BOARD_NUM = #{num}
+    </select>
+
+    <select id="isBoardWriter" resultType="board">
+        SELECT *
+        FROM BOARD
+        WHERE BOARD_NUM = #{num}
+          AND BOARD_PASS = #{pass}
+    </select>
+
+    <update id="boardModify">
+        UPDATE BOARD
+        SET BOARD_SUBJECT  = #{BOARD_SUBJECT},
+            BOARD_CONTENT  = #{BOARD_CONTENT},
+            BOARD_FILE     = #{BOARD_FILE},
+            BOARD_ORIGINAL = #{BOARD_ORIGINAL}
+        WHERE BOARD_NUM = #{BOARD_NUM}
+    </update>
+
+    <update id="boardReplyUpdate">
+        UPDATE BOARD
+           SET BOARD_RE_SEQ = BOARD_RE_SEQ + 1
+         WHERE BOARD_RE_REF = #{BOARD_RE_REF}
+           AND BOARD_RE_SEQ <![CDATA[>]]> #{BOARD_RE_SEQ}
+    </update>
+
+    <insert id="boardReply">
+        <selectKey resultType="int" order="BEFORE" keyProperty="BOARD_NUM">
+            SELECT NVL(MAX(BOARD_NUM),0)+1 FROM BOARD
+        </selectKey>
+        INSERT INTO BOARD
+        ( BOARD_NUM
+        , BOARD_NAME
+        , BOARD_PASS
+        , BOARD_SUBJECT
+        , BOARD_CONTENT
+        , BOARD_RE_REF
+        , BOARD_RE_LEV
+        , BOARD_RE_SEQ
+        , BOARD_READCOUNT
+        , BOARD_DATE)
+        values (
+        #{BOARD_NUM}
+        , #{BOARD_NAME}
+        , #{BOARD_PASS}
+        , #{BOARD_SUBJECT}
+        , #{BOARD_CONTENT}
+        , #{BOARD_RE_REF}
+        , #{BOARD_RE_LEV}
+        , #{BOARD_RE_SEQ}
+        , #{BOARD_READCOUNT},
+        SYSDATE)
+    </insert>
+
+    <delete id="boardDelete">
+        <![CDATA[
+        DELETE
+        FROM BOARD
+        WHERE BOARD_RE_REF = #{BOARD_RE_REF}
+          AND BOARD_RE_LEV >= #{BOARD_RE_LEV}
+          AND BOARD_RE_SEQ >= #{BOARD_RE_SEQ}
+          AND BOARD_RE_SEQ <= (
+            NVL((SELECT MIN(BOARD_RE_SEQ) - 1
+                 FROM BOARD
+                 WHERE BOARD_RE_REF = #{BOARD_RE_REF}
+                   AND BOARD_RE_LEV = #{BOARD_RE_LEV}
+                   AND BOARD_RE_SEQ > #{BOARD_RE_SEQ}),
+                (SELECT MAX(BOARD_RE_SEQ)
+                 FROM BOARD
+                 WHERE BOARD_RE_REF = #{BOARD_RE_REF}))
+            )
+        ]]>
+    </delete>
+</mapper>

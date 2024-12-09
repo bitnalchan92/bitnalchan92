@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper 인터페이스의 패키지명과 이름을 namespace로 설정합니다. -->
+<mapper namespace="com.naver.myhome4.mybatis.mapper.MemberMapper">
+    <!--
+        1. 태그에 id속성은 Mapper인터페이스에 사용된 메서드명과 동일하게 작성됩니다.
+        2. resultType속성은 Mapper인터페이스에 사용된 메서드의 반환 타입을 작성해줍니다.
+    -->
+    <select id="isId" resultType="member">
+        SELECT *
+        FROM MEMBER
+        WHERE ID = #{id}
+    </select>
+
+    <insert id="insert">
+        -- getter를 사용해서 값을 가져온다.
+        INSERT INTO MEMBER
+        VALUES (#{id}, #{password}, #{name}, #{age}, #{gender}, #{email})
+    </insert>
+
+    <select id="memberInfo" resultType="member">
+        SELECT *
+          FROM MEMBER
+         WHERE ID = #{id}
+
+    </select>
+
+</mapper>
